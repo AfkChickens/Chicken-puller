@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pull the Chicken</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background: radial-gradient(circle, #2f3542, #1e222b);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            color: white;
+            overflow: hidden;
+        }
+
+        h1 {
+            font-size: 3rem;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            text-shadow: 3px 3px 0px #ff4757, 6px 6px 0px #2f3542;
+            color: #ffffff;
+        }
+
+        p {
+            font-size: 1.1rem;
+            color: #a4b0be;
+            margin-bottom: 40px;
+        }
+
+        .pull-btn {
+            position: relative;
+            padding: 30px 60px;
+            font-size: 2.5rem;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            color: white;
+            background-color: #ff4757;
+            border: 4px solid #ffffff;
+            border-radius: 16px;
+            cursor: pointer;
+            outline: none;
+            box-shadow: 0 12px 0px #ff2138, 0 20px 25px rgba(0,0,0,0.4);
+            transition: all 0.1s ease;
+        }
+
+        .pull-btn:hover {
+            background-color: #ff6b81;
+            transform: translateY(2px);
+            box-shadow: 0 10px 0px #ff2138, 0 18px 20px rgba(0,0,0,0.4);
+        }
+
+        .pull-btn:active {
+            transform: translateY(10px);
+            box-shadow: 0 2px 0px #ff2138, 0 5px 10px rgba(0,0,0,0.6);
+        }
+
+        .zahl-input {
+            margin-top: 30px;
+            padding: 12px 20px;
+            font-size: 1.5rem;
+            border: 3px solid #ff4757;
+            border-radius: 8px;
+            background-color: #2f3542;
+            color: white;
+            text-align: center;
+            width: 150px;
+            outline: none;
+            font-weight: bold;
+        }
+
+        #status {
+            margin-top: 30px;
+            font-size: 1rem;
+            font-weight: bold;
+            color: #2ed573;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>🐔 Pull the Chicken 🐔</h1>
+    <p>Klicke den Button, damit AfkChicken dich pullt</p>
+
+    <button class="pull-btn" onclick="pullTheChicken()">PULL</button>
+
+    <input type="number" id="zahlFeld" class="zahl-input" placeholder="Zahl">
+
+    <div id="status">PULL! PULL! PULL! PULL!</div>
+
+    <script>
+        // =========================================================================
+        // HIER DEINE RICHTIGE ADRESSE EINTRAGEN (Beispiele):
+        // Für Render:         'https://dein-projektname.onrender.com'
+        // Für Ngrok:          'https://xyz-ngrok-free.app'
+        // Für Heimnetz-IP:    'http://192.168.178.50:3000'
+        // =========================================================================
+        const SERVER_URL = 'HIER_DEINE_RICHTIGE_ADRESSE_EINTRAGEN';
+
+        function pullTheChicken() {
+            const statusDiv = document.getElementById('status');
+            const zahlInput = document.getElementById('zahlFeld').value;
+
+            statusDiv.style.color = '#2ed573';
+            statusDiv.innerText = 'PULL! PULL! PULL! PULL!';
+            statusDiv.style.opacity = '1';
+            
+            setTimeout(() => { statusDiv.style.opacity = '0'; }, 2000);
+
+            // Sendet den Befehl an die eingetragene Server-URL im Internet
+            fetch(`${SERVER_URL}/rechtsklick?zahl=${zahlInput}`)
+                .then(response => response.json())
+                .then(data => {
+                    console.log("Erfolg:", data);
+                })
+                .catch(err => {
+                    // Da der Server nach dem Klick kurz neustartet, fangen wir den Abbruch ab
+                    console.log("Befehl gesendet! Server verarbeitet und startet neu.");
+                });
+        }
+    </script>
+</body>
+</html>
